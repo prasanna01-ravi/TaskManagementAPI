@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api_service:
+    build:
+      context: .
+    container_name: api_service
+    #restart: always
+    ports:
+      - "8090:8090"
+    depends_on:
+      - postgres_db
+    links:
+      - postgres_db:database
+    #environment:
+    #  - database.url=jdbc:postgresql://localhost:5432/?currentSchema=task_mgmt
+    #  - SPRING_DATASOURCE_USERNAME=compose-postgres
+    #  - SPRING_DATASOURCE_PASSWORD=compose-postgres
+    #  - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  postgres_db:
+    image: 'postgres:13.4'
+    container_name: postgres_db
+    restart: always
+    ports:
+      - "8200:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=abcd1234
+
